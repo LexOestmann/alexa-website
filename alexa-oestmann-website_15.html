@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alexa Oestmann, BSN-RN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --glacial:      #7BBFBE;
+    --glacial-deep: #2E6E72;
+    --glacial-mid:  #4E9497;
+    --glacial-pale: #C2DEDD;
+    --sky-deep:     #3A6480;
+    --sage:         #6B8A5E;
+    --sage-deep:    #3D5433;
+    --sage-pale:    #C4D4BC;
+    --paint:        #C2445A;
+    --paint-pale:   #F0C4CC;
+    --paint-wash:   #FBF0F2;
+    --glow:         #C97B5E;
+    --glow-pale:    #EFC5AE;
+    --stone:        #F5F1EC;
+    --stone-mid:    #EDE7DE;
+    --ink:          #1C2420;
+    --ink-mid:      #2E3832;
+    --muted:        #738078;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans:  'Inter', system-ui, sans-serif;
+    --hand:  'Caveat', cursive;
+    --max: 1080px;
+    --pad-x: clamp(1.25rem, 5vw, 5rem);
+    --pad-section: clamp(3.5rem, 8vw, 7rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html {
+    scroll-behavior: smooth;
+    scroll-snap-type: y proximity;
+  }
+  body { font-family: var(--sans); background: var(--stone); color: var(--ink); line-height: 1.7; -webkit-font-smoothing: antialiased; font-size: 16px; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+
+  /* Scroll-snap pages — each major section is its own "page" */
+  .page {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 var(--pad-x);
+    background: rgba(245,241,236,0.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(107,138,94,0.12);
+  }
+  .nav-logo { font-family: var(--serif); font-size: 1rem; color: var(--ink); }
+  .nav-logo span { display: block; font-family: var(--sans); font-size: 0.62rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--glacial-mid); margin-top: -3px; }
+  .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+  .nav-links a { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+  .nav-links a:hover { color: var(--paint); }
+  .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+  .nav-toggle span { display: block; width: 22px; height: 1.5px; background: var(--ink); border-radius: 2px; transition: all 0.2s; }
+
+  /* Mobile nav dropdown */
+  .nav-dropdown {
+    display: none;
+    position: fixed; top: 56px; left: 0; right: 0; z-index: 99;
+    background: rgba(245,241,236,0.98);
+    border-bottom: 1px solid rgba(107,138,94,0.12);
+    padding: 1rem var(--pad-x) 1.5rem;
+    flex-direction: column; gap: 1rem;
+    list-style: none;
+  }
+  .nav-dropdown.open { display: flex; }
+  .nav-dropdown a { font-size: 0.9rem; font-weight: 500; color: var(--ink-mid); letter-spacing: 0.04em; }
+
+  /* ── HERO — mobile first ── */
+  #hero {
+    padding-top: 56px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+  }
+  .hero-photo {
+    width: 100%;
+    height: 55vw;
+    min-height: 260px;
+    max-height: 480px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .hero-text {
+    flex: 1;
+    padding: 2.5rem var(--pad-x) 3rem;
+    background: var(--stone);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .hero-eyebrow { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--paint); margin-bottom: 1rem; }
+  .hero-headline { font-family: var(--serif); font-size: clamp(2rem, 6vw, 4rem); line-height: 1.1; color: var(--ink); margin-bottom: 1.25rem; letter-spacing: -0.01em; }
+  .hero-headline em { font-style: italic; color: var(--glacial-deep); }
+  .hero-punch { font-size: 0.95rem; color: var(--ink-mid); font-style: italic; border-left: 2px solid var(--paint); padding-left: 1rem; margin-bottom: 1.25rem; line-height: 1.7; }
+  .hero-sub { font-size: 0.88rem; color: var(--muted); margin-bottom: 2rem; line-height: 1.85; font-weight: 300; }
+  .hero-ctas { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+  /* ── BUTTONS ── */
+  .btn { display: inline-flex; align-items: center; gap: 0.35rem; font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; padding: 0.75rem 1.5rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; text-decoration: none; white-space: nowrap; }
+  .btn-fill { background: var(--paint); color: #fff; border: 1.5px solid var(--paint); }
+  .btn-fill:hover { background: #d4536a; border-color: #d4536a; transform: translateY(-1px); }
+  .btn-line { background: transparent; color: var(--ink); border: 1.5px solid rgba(28,36,32,0.28); }
+  .btn-line:hover { border-color: var(--ink); transform: translateY(-1px); }
+
+  /* ── QUOTE SECTION ── */
+  .intro-quote {
+    position: relative; overflow: hidden;
+    padding: clamp(3rem, 7vw, 6rem) var(--pad-x);
+  }
+  .intro-quote-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background-image: url('WATERCOLORMOUNTAIN2.png');
+    background-size: cover; background-position: center;
+  }
+  .intro-quote-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background: rgba(245,241,236,0.62);
+  }
+  .intro-quote blockquote {
+    position: relative; z-index: 2;
+    max-width: 720px; margin: 0 auto;
+    font-family: var(--serif);
+    font-size: clamp(1.1rem, 3vw, 1.7rem);
+    line-height: 1.65; color: var(--ink);
+    font-style: italic; text-align: center;
+  }
+  .intro-quote blockquote br { display: block; margin: 0.75rem 0; content: ''; }
+  .intro-quote cite { display: block; margin-top: 1.5rem; font-family: var(--sans); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--paint); font-style: normal; text-align: center; }
+
+  /* ── PHOTO BREAK ── */
+  .photo-break { height: clamp(220px, 40vw, 480px); overflow: hidden; }
+  .photo-break img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
+
+  /* ── SECTION SHARED ── */
+  .section-wrap {
+    padding: var(--pad-section) var(--pad-x);
+    overflow-y: auto;
+  }
+  .section-inner { max-width: var(--max); margin: 0 auto; width: 100%; }
+  .section-eyebrow { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .section-title { font-family: var(--serif); font-size: clamp(1.75rem, 5vw, 2.8rem); line-height: 1.15; margin-bottom: 2.5rem; }
+
+  /* ── WORK ── */
+  #work { background: var(--stone-mid); }
+  #work .section-eyebrow { color: var(--sage); }
+  #work .section-title { color: var(--ink); }
+
+  .work-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2.5rem; }
+  .work-tab { font-family: var(--sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.03em; padding: 0.55rem 1.1rem; border-radius: 2px; border: 1.5px solid transparent; cursor: pointer; transition: all 0.18s; }
+  .work-tab.t-sage    { background: var(--sage-pale); color: var(--sage-deep); border-color: rgba(107,138,94,0.3); }
+  .work-tab.t-glacial { background: var(--glacial-pale); color: var(--glacial-deep); border-color: rgba(78,148,151,0.3); }
+  .work-tab.t-paint   { background: var(--paint-wash); color: var(--paint); border-color: rgba(194,68,90,0.25); }
+  .work-tab.t-sage.active,    .work-tab.t-sage:hover    { background: var(--sage); color: #fff; border-color: var(--sage); }
+  .work-tab.t-glacial.active, .work-tab.t-glacial:hover { background: var(--glacial-mid); color: #fff; border-color: var(--glacial-mid); }
+  .work-tab.t-paint.active,   .work-tab.t-paint:hover   { background: var(--paint); color: #fff; border-color: var(--paint); }
+
+  .work-panel { display: none; }
+  .work-panel.active { display: block; }
+  .panel-eyebrow { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .t-sage .panel-eyebrow    { color: var(--sage); }
+  .t-glacial .panel-eyebrow { color: var(--glacial-mid); }
+  .t-paint .panel-eyebrow   { color: var(--paint); }
+  .panel-title { font-family: var(--serif); font-size: clamp(1.4rem, 3.5vw, 2rem); color: var(--ink); line-height: 1.2; margin-bottom: 0.3rem; }
+  .panel-sub { font-size: 0.8rem; font-style: italic; color: var(--muted); margin-bottom: 1.5rem; }
+  .panel-body { display: grid; grid-template-columns: 1fr; gap: 0; }
+  .panel-body p { font-size: 0.93rem; color: var(--ink-mid); line-height: 1.85; margin-bottom: 0.9rem; font-weight: 300; }
+  .panel-body p:last-child { margin-bottom: 1.5rem; }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.35rem; padding-top: 1.5rem; border-top: 1px solid rgba(107,138,94,0.12); }
+  .tag { font-size: 0.68rem; font-weight: 400; padding: 0.2rem 0.6rem; border-radius: 2px; color: var(--muted); border: 1px solid rgba(98,112,106,0.22); }
+
+  /* ── ABOUT ── */
+  #about { background: #fff; }
+  #about .section-eyebrow { color: var(--glacial-mid); }
+  #about .section-title { color: var(--ink); }
+
+  /* Narrative bio above the trail */
+  .about-narrative { max-width: 760px; margin-bottom: 3rem; }
+  .about-narrative p { font-size: 0.97rem; color: var(--ink-mid); line-height: 1.95; margin-bottom: 1.1rem; font-weight: 300; }
+  .about-narrative p:last-child { margin-bottom: 0; font-style: italic; color: var(--muted); font-size: 0.88rem; }
+
+  /* Mountain trail — hand-drawn parchment photo with overlay trail */
+  .trail-wrap { margin-bottom: 3rem; }
+  .trail-photo-container {
+    position: relative;
+    width: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+    aspect-ratio: 900/320;
+  }
+  .trail-photo-bg { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .trail-overlay-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .trail-node circle.node-dot { transition: r 0.2s, opacity 0.2s; }
+
+  .trail-signpost {
+    position: absolute;
+    left: 2.5%; bottom: 6%;
+    display: flex; flex-direction: column; align-items: flex-start;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .signpost-sign {
+    font-family: var(--hand);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--paint);
+    transform: rotate(-2deg);
+    white-space: nowrap;
+  }
+  .signpost-post {
+    width: 2px; height: 20px;
+    background: var(--paint);
+    opacity: 0.6;
+    margin-top: 2px;
+    border-radius: 1px;
+    margin-left: 4px;
+  }
+
+  /* Handwritten labels overlaid via HTML for crisp rendering */
+  .trail-labels { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+  .trail-label {
+    position: absolute;
+    font-family: var(--hand);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #3A352E;
+    opacity: 0.85;
+    transform: translate(-50%, -100%) rotate(-2deg);
+    white-space: nowrap;
+  }
+
+  .string-closing { padding-top: 2.5rem; border-top: 1px solid rgba(107,138,94,0.12); margin-bottom: var(--pad-section); }
+  .string-closing p { font-family: var(--serif); font-size: clamp(1rem, 2.5vw, 1.25rem); color: var(--ink-mid); line-height: 1.8; font-style: italic; }
+  .string-closing strong { font-style: normal; color: var(--paint); }
+
+  /* About photo strip */
+  .about-photo-strip { height: clamp(200px, 40vw, 420px); overflow: hidden; border-radius: 3px; margin-bottom: 2.5rem; }
+  .about-photo-strip img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; }
+
+  /* Life section */
+  .about-life { display: flex; flex-direction: column; gap: 1.5rem; }
+  .about-life-photo { height: clamp(200px, 50vw, 320px); overflow: hidden; border-radius: 3px; }
+  .about-life-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+  .about-life-text h3 { font-family: var(--serif); font-size: clamp(1.3rem, 3vw, 1.9rem); color: var(--ink); margin-bottom: 0.75rem; line-height: 1.2; }
+  .about-life-text p { font-size: 0.9rem; color: var(--muted); line-height: 1.85; font-weight: 300; }
+
+  .open-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--paint); margin-top: 1.5rem; margin-bottom: 0.65rem; }
+  .open-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .open-tags span { font-size: 0.73rem; padding: 0.28rem 0.7rem; border-radius: 2px; color: var(--paint); border: 1px solid var(--paint-pale); background: var(--paint-wash); }
+
+  /* Carousel */
+  .carousel-wrap {
+    display: flex; align-items: flex-start; gap: 1rem;
+    margin-top: 2rem; min-height: 160px;
+  }
+  .carousel-btn {
+    flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%;
+    background: #fff; border: 1.5px solid var(--stone-mid);
+    font-size: 1.1rem; cursor: pointer; color: var(--ink-mid);
+    transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+    margin-top: 0.5rem;
+  }
+  .carousel-btn:hover { border-color: var(--paint); color: var(--paint); }
+  .carousel-btn:disabled { opacity: 0.3; cursor: default; }
+  .carousel-card {
+    flex: 1; opacity: 1; transition: opacity 0.25s ease;
+    border-left: 3px solid var(--sage);
+    padding-left: 1.25rem;
+  }
+  .carousel-card.fading { opacity: 0; }
+  .carousel-card-num { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .carousel-card h4 { font-family: var(--serif); font-size: clamp(1.1rem, 2.5vw, 1.4rem); color: var(--ink); line-height: 1.2; margin-bottom: 0.5rem; }
+  .carousel-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.85; font-weight: 300; }
+  .carousel-progress {
+    display: flex; align-items: center; gap: 1rem;
+    margin-top: 1.25rem;
+  }
+  .carousel-counter { font-size: 0.7rem; font-weight: 500; color: var(--muted); letter-spacing: 0.06em; white-space: nowrap; }
+  .carousel-dots { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .carousel-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--stone-mid); border: 1.5px solid var(--stone-dark);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .carousel-dot.active { background: var(--paint); border-color: var(--paint); transform: scale(1.2); }
+  #connect { background: var(--paint-dark, #6B2638); position: relative; overflow: hidden; }
+  .connect-bg { position: absolute; inset: 0; z-index: 0; background-image: url('IMG_3057.JPG'); background-size: cover; background-position: center 40%; opacity: 0.35; }
+  .connect-overlay { position: absolute; inset: 0; z-index: 0; background: linear-gradient(135deg, rgba(140,42,58,0.75) 0%, rgba(201,123,94,0.55) 100%); }
+  #connect .section-inner { position: relative; z-index: 1; }
+  #connect .section-eyebrow { color: var(--glow-pale); }
+  #connect .section-title { color: #fff; }
+  .connect-intro { font-size: 0.93rem; color: rgba(250,238,230,0.88); line-height: 1.9; margin-bottom: 1.75rem; font-weight: 300; }
+  .linkedin-btn { display: inline-flex; align-items: center; gap: 0.55rem; font-size: 0.82rem; font-weight: 600; color: rgba(255,255,255,0.9); border-bottom: 1px solid rgba(255,255,255,0.35); padding-bottom: 0.15rem; transition: all 0.2s; margin-bottom: 2.5rem; }
+  .linkedin-btn:hover { color: #fff; border-bottom-color: #fff; }
+  .connect-topics-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #FBE3D3; margin-bottom: 0.85rem; }
+  .connect-topics { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .connect-topics span { font-size: 0.76rem; padding: 0.3rem 0.8rem; border-radius: 2px; color: rgba(255,255,255,0.85); border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); transition: all 0.2s; }
+  .connect-topics span:hover { background: rgba(255,255,255,0.2); color: #fff; }
+
+  /* ── FOOTER ── */
+  footer { background: var(--ink); color: rgba(245,241,236,0.32); text-align: center; padding: 2rem var(--pad-x); font-size: 0.72rem; line-height: 2; }
+  footer a { color: rgba(245,241,236,0.52); text-decoration: underline; text-underline-offset: 3px; }
+
+  /* ── TABLET+ ── */
+  @media (min-width: 640px) {
+    #hero { flex-direction: row; min-height: 100svh; }
+    .hero-text { padding: 5rem var(--pad-x); max-width: 55%; }
+    .hero-photo { width: 45%; height: auto; max-height: none; }
+    .panel-body { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+    .about-life { flex-direction: row; align-items: center; gap: 3rem; }
+    .about-life-photo { width: 45%; flex-shrink: 0; height: 300px; }
+    .about-life-text { flex: 1; }
+  }
+
+  @media (min-width: 900px) {
+    .hero-text { max-width: 52%; }
+    .hero-photo { width: 48%; }
+    .connect-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  }
+
+  @media (max-height: 700px), (max-width: 639px) {
+    html { scroll-snap-type: none; }
+    .page { min-height: auto; }
+  }
+
+  @media (max-width: 639px) {
+    .trail-label { font-size: 0.78rem; }
+    .signpost-sign { font-size: 1rem; }
+    .signpost-sign { font-size: 0.55rem; padding: 0.28rem 0.5rem; }
+    .signpost-post { height: 20px; }
+    .nav-links { display: none; }
+    .nav-toggle { display: flex; }
+    .hero-ctas { flex-direction: column; }
+    .hero-ctas .btn { justify-content: center; text-align: center; }
+    .work-tabs { gap: 0.4rem; }
+    .work-tab { font-size: 0.7rem; padding: 0.5rem 0.85rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo">
+    Alexa Oestmann
+    <span>BSN-RN</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">My Work</a></li>
+    <li><a href="#connect">Connect</a></li>
+  </ul>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Open navigation">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<ul class="nav-dropdown" id="nav-dropdown">
+  <li><a href="#hero">Home</a></li>
+  <li><a href="#about">About</a></li>
+  <li><a href="#work">My Work</a></li>
+  <li><a href="#connect">Connect</a></li>
+</ul>
+
+<!-- ── HERO ── -->
+<section id="hero" class="page">
+  <div class="hero-photo">
+    <img src="IMG_1878.JPG" alt="Alexa Oestmann, BSN-RN">
+  </div>
+  <div class="hero-text">
+    <p class="hero-eyebrow">Nurse · Scientist · Innovator · Advocate</p>
+    <h1 class="hero-headline">Every role has been a different angle on the same mission: <em>real impact, for real patients.</em></h1>
+    <p class="hero-punch">I've been at the bedside, on clinical trial teams, and in the field. I connect the dots that others don't even know exist.</p>
+    <p class="hero-sub">I'm Alexa Oestmann, BSN-RN — a nurse-scientist at the intersection of patient care, clinical research, and healthcare innovation.</p>
+    <div class="hero-ctas">
+      <a href="#about" class="btn btn-fill">My Story &rarr;</a>
+      <a href="#connect" class="btn btn-line">Let's Connect &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUOTE ── -->
+<div class="intro-quote page">
+  <div class="intro-quote-bg"></div>
+  <div class="intro-quote-overlay"></div>
+  <blockquote>
+    Most people see the summit photo. They don't see the approach: the years of learning the terrain, studying the map, choosing partners you can trust when the conditions get hard.
+    <br><br>
+    I've spent my career on that approach. The mountain is the US healthcare system: complex, demanding, and imperfect. Access. Innovation. The gap between what medicine can do and who actually gets it.
+    <br><br>
+    I climb because someone has to know the terrain. Because the people at the top and the people at the bottom need someone who knows both.
+    <cite>That's the invisible string.</cite>
+  </blockquote>
+</div>
+
+<!-- ── ABOUT ── -->
+<section id="about" class="section-wrap page">
+  <div class="section-inner">
+    <p class="section-eyebrow" style="color:var(--glacial-mid)">Background</p>
+    <h2 class="section-title">The Invisible String</h2>
+
+    <div class="about-narrative">
+      <p>My path hasn't been a straight line, and that's the point. I bring a unique lens: the ability to hold two scales in my head at once. The individual patient in front of me, and the entire system around them. Most people see one or the other. I've never been able to unsee both.</p>
+      <p>Nebraska, Africa, a hospital bedside, clinical trials, patient navigation, industry: on paper these look like disconnected chapters. They're not. Every stop trained the same instinct: zoom in on the person, zoom out to the system, and never let go of either view.</p>
+      <p>I grew up in rural Nebraska, where my mother was a nurse and I learned early that where you live shapes what care you can access. That was my first system. A biology degree led me to the Smithsonian Conservation Biology Institute in Virginia, where I worked in the wildlife endocrinology lab and learned what it actually means to be a scientist: how to ask a good question, test it rigorously, and trust data over assumption. From there, wildlife research across East and South Africa taught me to think in ecosystems, to see how human, animal, and environmental health are inseparable.</p>
+      <p>That realization brought me to nursing, where the individual finally had a face. I started at the bedside during COVID in rural Montana, a formative, humbling entry into the profession that exposed every crack in the system and demanded resilience and creativity I didn't know I had. From there I moved into clinical research, coordinating 26 industry-sponsored trials. I'll never forget watching patients gain access to therapies that didn't exist for them anywhere else, and seeing what that access did to their lives. That feeling is what made the systems work feel worth it.</p>
+      <p>As an Oncology and Pulmonology Navigator, I learned how brutal it truly is to move through a broken system when you're already sick. That experience led me into industry, first as a cardiometabolic educator at Novo Nordisk, and now as a Clinical Science Liaison at Henlius USA. The scale changed. The lens didn't. I'm still holding the patient and the system in the same frame, just from a different elevation.</p>
+      <p>That's the invisible string: not a straight path, but a constant, simultaneous focus on the person and the system that surrounds them. You can't see one clearly without the other.</p>
+      <p>Below is the trail that connects it all. Click through each stop to see the thread for yourself.</p>
+    </div>
+
+    <div class="trail-wrap">
+      <div class="trail-photo-container">
+        <img src="MAP.png" alt="Hand-drawn parchment map" class="trail-photo-bg">
+
+        <!-- Signpost marking the trail start, handwritten style -->
+        <div class="trail-signpost">
+          <div class="signpost-sign">trail starts here</div>
+          <div class="signpost-post"></div>
+        </div>
+
+        <!-- Winding dashed trail with stop markers -->
+        <svg class="trail-overlay-svg" viewBox="0 0 900 320" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="trailGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#6B8A5E"/>
+              <stop offset="20%"  stop-color="#5A9560"/>
+              <stop offset="40%"  stop-color="#4E9497"/>
+              <stop offset="58%"  stop-color="#2E6E72"/>
+              <stop offset="80%"  stop-color="#C2445A"/>
+              <stop offset="100%" stop-color="#C97B5E"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Gentle winding path, mathematically smooth, never loops -->
+          <path id="trail-base"
+                d="M 50.0,200.0 L 82.7,206.1 L 115.3,211.6 L 148.0,216.1 L 180.6,219.1 L 213.3,220.2 L 245.9,219.3 L 278.6,216.1 L 311.2,210.8 L 343.9,203.5 L 376.5,194.5 L 409.2,184.2 L 441.8,173.1 L 474.5,161.7 L 507.1,150.6 L 539.8,140.3 L 572.4,131.3 L 605.1,124.0 L 637.8,118.6 L 670.4,115.4 L 703.1,114.4 L 735.7,115.5 L 768.4,118.5 L 801.0,123.0 L 833.7,128.5 L 850.0,131.5"
+                fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7,7" opacity="0.9"/>
+          <path id="trail-active"
+                d="M 50.0,200.0 L 82.7,206.1 L 115.3,211.6 L 148.0,216.1 L 180.6,219.1 L 213.3,220.2 L 245.9,219.3 L 278.6,216.1 L 311.2,210.8 L 343.9,203.5 L 376.5,194.5 L 409.2,184.2 L 441.8,173.1 L 474.5,161.7 L 507.1,150.6 L 539.8,140.3 L 572.4,131.3 L 605.1,124.0 L 637.8,118.6 L 670.4,115.4 L 703.1,114.4 L 735.7,115.5 L 768.4,118.5 L 801.0,123.0 L 833.7,128.5 L 850.0,131.5"
+                fill="none" stroke="url(#trailGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                stroke-dasharray="817" stroke-dashoffset="817" opacity="0.95"/>
+
+          <!-- Nodes -->
+          <g class="trail-node" data-index="0" style="cursor:pointer" onclick="goToStop(0)">
+            <circle class="node-dot" cx="50" cy="200" r="9" fill="#fff" stroke="#2D4A32" stroke-width="2.6" opacity="0.85"/>
+          </g>
+          <g class="trail-node" data-index="1" style="cursor:pointer" onclick="goToStop(1)">
+            <circle class="node-dot" cx="164" cy="217.8" r="8" fill="#fff" stroke="#5A9560" stroke-width="2.4" opacity="0.8"/>
+          </g>
+          <g class="trail-node" data-index="2" style="cursor:pointer" onclick="goToStop(2)">
+            <circle class="node-dot" cx="279" cy="216.0" r="8" fill="#fff" stroke="#4E9497" stroke-width="2.4" opacity="0.8"/>
+          </g>
+          <g class="trail-node" data-index="3" style="cursor:pointer" onclick="goToStop(3)">
+            <circle class="node-dot" cx="393" cy="189.4" r="8" fill="#fff" stroke="#2E6E72" stroke-width="2.4" opacity="0.8"/>
+          </g>
+          <g class="trail-node" data-index="4" style="cursor:pointer" onclick="goToStop(4)">
+            <circle class="node-dot" cx="507" cy="150.7" r="8" fill="#fff" stroke="#2E6E72" stroke-width="2.4" opacity="0.8"/>
+          </g>
+          <g class="trail-node" data-index="5" style="cursor:pointer" onclick="goToStop(5)">
+            <circle class="node-dot" cx="621" cy="121.1" r="8" fill="#fff" stroke="#C2445A" stroke-width="2.4" opacity="0.8"/>
+          </g>
+          <g class="trail-node" data-index="6" style="cursor:pointer" onclick="goToStop(6)">
+            <circle class="node-dot" cx="736" cy="115.6" r="8" fill="#fff" stroke="#C97B5E" stroke-width="2.4" opacity="0.75"/>
+          </g>
+          <g class="trail-node" data-index="7" style="cursor:pointer" onclick="goToStop(7)">
+            <circle class="node-dot" cx="850" cy="131.5" r="9" fill="#fff" stroke="#C97B5E" stroke-width="2.6" opacity="0.8"/>
+            <line x1="850" y1="122" x2="850" y2="100" stroke="#C97B5E" stroke-width="1.6" opacity="0.8"/>
+            <polygon points="850,100 864,105 850,110" fill="#C97B5E" opacity="0.85"/>
+          </g>
+        </svg>
+
+        <!-- Handwritten labels positioned with HTML for crisp text rendering, spaced above each node -->
+        <div class="trail-labels">
+          <span class="trail-label" style="left:5.5%; top:55%;">Nebraska</span>
+          <span class="trail-label" style="left:18.2%; top:60%;">Smithsonian</span>
+          <span class="trail-label" style="left:31%; top:60%;">Africa</span>
+          <span class="trail-label" style="left:43.7%; top:51.5%;">Bedside</span>
+          <span class="trail-label" style="left:56.3%; top:39.5%;">Trials</span>
+          <span class="trail-label" style="left:69%; top:30%;">Navigation</span>
+          <span class="trail-label" style="left:81.8%; top:28%;">Novo</span>
+          <span class="trail-label" style="left:94.4%; top:33.5%;">CSL</span>
+        </div>
+      </div>
+
+      <!-- Carousel -->
+      <div class="carousel-wrap">
+        <button class="carousel-btn carousel-prev" onclick="prevStop()" aria-label="Previous">&#8592;</button>
+        <div class="carousel-card" id="carousel-card"></div>
+        <button class="carousel-btn carousel-next" onclick="nextStop()" aria-label="Next">&#8594;</button>
+      </div>
+      <div class="carousel-progress">
+        <span class="carousel-counter" id="carousel-counter">1 / 7</span>
+        <div class="carousel-dots" id="carousel-dots"></div>
+      </div>
+    </div>
+
+    <div class="string-closing">
+      <p>The invisible string through all of it is the same: <strong>the patient, and the systems that either support them or fail them.</strong> That's the lens I bring into every room now — whether it's a bedside, a boardroom, or somewhere in between.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── WORK ── -->
+<section id="work" class="section-wrap page">
+  <div class="section-inner">
+    <p class="section-eyebrow" style="color:var(--sage)">Experience</p>
+    <h2 class="section-title">What I've Built, Done &amp; Learned</h2>
+
+    <div class="work-tabs" role="tablist">
+      <button class="work-tab t-sage active" onclick="switchTab('clinical')" role="tab" aria-selected="true">Clinical Foundation</button>
+      <button class="work-tab t-glacial" onclick="switchTab('science')" role="tab" aria-selected="false">Scientific Communication</button>
+      <button class="work-tab t-paint" onclick="switchTab('innovation')" role="tab" aria-selected="false">Innovation &amp; Digital Health</button>
+    </div>
+
+    <div id="panel-clinical" class="work-panel t-sage active">
+      <p class="panel-eyebrow">Clinical Foundation</p>
+      <h3 class="panel-title">Where it started — and what it gave me</h3>
+      <p class="panel-sub">Bedside nursing · Clinical research · Oncology navigation</p>
+      <div class="panel-body">
+        <div>
+          <p>My clinical career began at the bedside in oncology and medical-surgical nursing at the start of the COVID-19 pandemic — a formative and humbling entry point into the profession. From there I moved into specialty pulmonary nursing, then into clinical research coordinating 26 industry-sponsored trials across oncology, cardiometabolic, rheumatology, and rare disease.</p>
+          <p>Later I served as an Oncology Nurse Navigator, helping patients find their footing and move forward during some of the most uncertain moments of their lives.</p>
+        </div>
+        <div>
+          <p>Working in rural Montana meant becoming fluent in the full spectrum of access barriers — geographic distance, health literacy gaps, financial hardship, prior authorizations, specialty pharmacy navigation, and connecting patients to assistance programs that could actually help. Access is never just a clinical question. It's a human one.</p>
+          <p>What nursing gave me that no other training could: the ability to hold a patient's individual reality and a system's complexity at the same time — and find a way through both.</p>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag">GCP Certified</span><span class="tag">IRB Experience</span><span class="tag">26 Clinical Trials</span><span class="tag">Oncology Navigation</span><span class="tag">Patient Education</span><span class="tag">Prior Authorization</span><span class="tag">Specialty Pharmacy</span><span class="tag">Rural Health</span><span class="tag">Health Literacy</span><span class="tag">Patient Access</span>
+      </div>
+    </div>
+
+    <div id="panel-science" class="work-panel t-glacial">
+      <p class="panel-eyebrow">Scientific Communication &amp; Field Medical</p>
+      <h3 class="panel-title">Translating science into something that actually lands</h3>
+      <p class="panel-sub">Medical education · Clinical Science Liaison, Henlius USA (current) · Field medical</p>
+      <div class="panel-body">
+        <div>
+          <p>At Novo Nordisk I delivered evidence-based clinical education across cardiometabolic disease to physicians, advanced practice providers, and clinic staff across Western Montana — learning that the gap between clinical evidence and clinical practice is often a communication and access problem, not a science problem.</p>
+        </div>
+        <div>
+          <p>I currently serve as a Clinical Science Liaison at Henlius USA, contracted through Randstad. In this role, I'm engaging investigators, gathering site-level insights, supporting patient advocacy group relationships, and helping sponsors and sites speak the same language. I've also supported congress and conference planning, and serve as a liaison between clinical teams and patient advocacy organizations.</p>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag">HCP Engagement</span><span class="tag">Scientific Education</span><span class="tag">Clinical Development</span><span class="tag">Patient Advocacy Liaison</span><span class="tag">Congress Planning</span><span class="tag">Insight Generation</span><span class="tag">Veeva CRM</span><span class="tag">Cardiometabolic</span><span class="tag">Oncology</span>
+      </div>
+    </div>
+
+    <div id="panel-innovation" class="work-panel t-paint">
+      <p class="panel-eyebrow">Innovation &amp; Digital Health</p>
+      <h3 class="panel-title">Building what doesn't exist yet</h3>
+      <p class="panel-sub">AI platform development · Clinical monitoring · Medical writing</p>
+      <div class="panel-body">
+        <div>
+          <p>I'm an AI builder — because the tools we need don't always exist yet. When I identified a gap in how our team was monitoring patient data across trials — no clear way to visualize progress in real time — I built an AI-powered medical monitoring and data visualization platform. It solved the immediate problem. The organization is now expanding it across its broader trial portfolio.</p>
+        </div>
+        <div>
+          <p>I'm currently completing the AI &amp; Nursing Foundations program alongside leading nurse innovators, and a Medical Writing &amp; AI course — because I believe the clinicians who understand both the science and the technology will shape what healthcare looks like next. Especially in the rural and underserved communities that are too often the last to benefit from innovation.</p>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag">AI Platform Development</span><span class="tag">Data Visualization</span><span class="tag">Clinical Monitoring</span><span class="tag">AI &amp; Nursing Foundations</span><span class="tag">Medical Writing &amp; AI</span><span class="tag">Microsoft Copilot</span><span class="tag">ChatGPT</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<!-- ── PERSONAL ── -->
+<section id="personal" class="section-wrap page">
+  <div class="section-inner">
+    <p class="section-eyebrow" style="color:var(--glow)">Beyond Work</p>
+    <h2 class="section-title">When I'm Not Working</h2>
+
+    <div class="about-photo-strip">
+      <img src="IMG_4739.JPG" alt="Kayaking on a Montana lake with snow-capped peaks">
+    </div>
+
+    <div class="about-life">
+      <div class="about-life-photo">
+        <img src="IMG_6182.JPG" alt="Ski touring in the mountains">
+      </div>
+      <div class="about-life-text">
+        <h3>Northwest Montana, mostly outside</h3>
+        <p>Northwest Montana is as good a reason as any to close the laptop. You'll find me on skis, out on a trail run, or somewhere on the water. When I'm not exploring my own backyard I'm planning my next travel adventure. I'm also obsessed with my dog and two cats, and can usually be found in the kitchen cooking something ambitious or with my nose in a good book.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONNECT ── -->
+<section id="connect" class="section-wrap page">
+  <div class="connect-bg"></div>
+  <div class="connect-overlay"></div>
+  <div class="section-inner connect-grid">
+    <div>
+      <p class="section-eyebrow" style="color:var(--glow-pale)">Get in Touch</p>
+      <h2 class="section-title" style="color:#fff">Let's Talk</h2>
+      <p class="connect-intro">If you're working somewhere on the mountain — in clinical science, patient access, medical affairs, health outcomes, or digital health — I'd love to talk. Whether you're building something, hiring for something, or just want to compare notes on the terrain.</p>
+      <a href="https://linkedin.com/in/alexaoestmann/" target="_blank" rel="noopener noreferrer" class="linkedin-btn">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+          <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+        </svg>
+        Connect on LinkedIn
+      </a>
+    </div>
+    <div>
+      <p class="connect-topics-label">I'm especially interested in conversations about</p>
+      <div class="connect-topics">
+        <span>HEOR</span><span>Patient Advocacy</span><span>Medical Affairs</span><span>Market Access</span><span>Patient Access</span><span>Digital Health</span><span>Clinical Science</span><span>Health Outcomes</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 Alexa Oestmann, BSN-RN &nbsp;&middot;&nbsp; Northwest Montana</p>
+  <p>Views and opinions expressed on this site are my own and do not represent those of any current or former employer.</p>
+  <p>Built with the assistance of <a href="https://claude.ai" target="_blank" rel="noopener">Claude AI</a> as part of the AI &amp; Nursing Foundations program — because I believe in using the tools I advocate for.</p>
+</footer>
+
+<script>
+  // Nav toggle
+  const toggle = document.getElementById('nav-toggle');
+  const dropdown = document.getElementById('nav-dropdown');
+  toggle.addEventListener('click', () => dropdown.classList.toggle('open'));
+  dropdown.querySelectorAll('a').forEach(l => l.addEventListener('click', () => dropdown.classList.remove('open')));
+
+  // Work tabs
+  const tabIds = ['clinical','science','innovation'];
+  function switchTab(id) {
+    document.querySelectorAll('.work-tab').forEach((t,i) => {
+      const active = tabIds[i] === id;
+      t.classList.toggle('active', active);
+      t.setAttribute('aria-selected', active);
+    });
+    tabIds.forEach(k => document.getElementById('panel-' + k).classList.toggle('active', k === id));
+  }
+
+  // ── CAROUSEL ──
+  const stops = [
+    { num: '01 · Rural Nebraska',               color: '#6B8A5E', title: 'The lens I\'ve never put down',           text: 'Growing up rural gave me a way of seeing healthcare geographically — where you live shapes what care looks like, how far you drive, and whether you can access it at all.' },
+    { num: '02 · Smithsonian Conservation Biology Institute', color: '#5A9560', title: 'Learning to think like a scientist', text: 'Working in the wildlife endocrinology lab in Virginia, I learned what it actually means to be a scientist — how to ask a good question, test it rigorously, and trust data over assumption.' },
+    { num: '03 · East & South Africa',           color: '#4E9497', title: 'Everything is interconnected',           text: 'Wildlife research taught me to think in ecosystems. Working with Save the Elephants, I saw that human health can\'t be separated from the world around it.' },
+    { num: '04 · Montana Bedside',               color: '#2E6E72', title: 'Every crack in the system',              text: 'The bedside during COVID exposed every crack in the system and demanded resilience and creativity I didn\'t know I had.' },
+    { num: '05 · Clinical Trials',               color: '#2E6E72', title: 'What healthcare could look like',        text: '26 trials showed me more personalized, attentive care. Watching patients access therapies that changed their lives is something I don\'t forget.' },
+    { num: '06 · Oncology & Pulmonology Nav.',   color: '#C2445A', title: 'The mountain no one prepared them for',  text: 'Navigation showed me how brutal it truly is to move through a broken system when you\'re already sick — financially, geographically, and without a clear map.' },
+    { num: '07 · Novo Nordisk',                  color: '#C97B5E', title: 'Where science meets the people applying it', text: 'A cardiometabolic educator role at Novo Nordisk planted me at the intersection of medical and commercial — the gap between evidence and practice is almost always a communication problem.' },
+    { num: '08 · Clinical Science Liaison',      color: '#C97B5E', title: 'The same patient, a different scale',   text: 'I currently serve as a Clinical Science Liaison at Henlius USA. The patient is still the center of the work, I\'m just working at a different elevation now, with the industry lens to match.' },
+  ];
+
+  // Trail lengths for each node (approximate dashoffset values for the colored path)
+  const trailOffsets = [816.8, 701.1, 586.5, 469.0, 348.3, 230.1, 115.5, 0];
+
+  let current = 0;
+
+  function buildDots() {
+    const dotsEl = document.getElementById('carousel-dots');
+    dotsEl.innerHTML = '';
+    stops.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', `Go to stop ${i+1}`);
+      d.onclick = () => goToStop(i);
+      dotsEl.appendChild(d);
+    });
+  }
+
+  function updateNode(index, active) {
+    const nodes = document.querySelectorAll('.trail-node');
+    const node = nodes[index];
+    if (!node) return;
+    const dot = node.querySelector('.node-dot');
+    const lines = node.querySelectorAll('line');
+    const baseR = index === 7 ? 9 : 8;
+    if (active) {
+      dot.setAttribute('opacity', '1');
+      dot.setAttribute('r', baseR + 2);
+      lines.forEach(l => l.setAttribute('opacity', '0.85'));
+    } else {
+      dot.setAttribute('opacity', '0.5');
+      dot.setAttribute('r', baseR);
+      lines.forEach(l => l.setAttribute('opacity', '0.6'));
+    }
+  }
+
+  function goToStop(index) {
+    const card = document.getElementById('carousel-card');
+    card.classList.add('fading');
+    setTimeout(() => {
+      // Update previous node
+      updateNode(current, false);
+      current = index;
+      // Update active node
+      updateNode(current, true);
+      // Update trail color progress
+      const trailActive = document.getElementById('trail-active');
+      if (trailActive) trailActive.style.strokeDashoffset = trailOffsets[current];
+      // Render card
+      const s = stops[current];
+      card.style.borderLeftColor = s.color;
+      card.innerHTML = `<p class="carousel-card-num" style="color:${s.color}">${s.num}</p><h4>${s.title}</h4><p>${s.text}</p>`;
+      card.classList.remove('fading');
+      // Update dots
+      document.querySelectorAll('.carousel-dot').forEach((d,i) => d.classList.toggle('active', i === current));
+      // Update counter
+      document.getElementById('carousel-counter').textContent = `${current + 1} / ${stops.length}`;
+      // Update prev/next buttons
+      document.querySelector('.carousel-prev').disabled = current === 0;
+      document.querySelector('.carousel-next').disabled = current === stops.length - 1;
+    }, 200);
+  }
+
+  function prevStop() { if (current > 0) goToStop(current - 1); }
+  function nextStop() { if (current < stops.length - 1) goToStop(current + 1); }
+
+  // Init
+  buildDots();
+  // Draw trail to first stop after a moment
+  setTimeout(() => {
+    const trailActive = document.getElementById('trail-active');
+    if (trailActive) {
+      trailActive.style.transition = 'stroke-dashoffset 0.8s ease';
+      trailActive.style.strokeDashoffset = trailOffsets[0];
+    }
+    updateNode(0, true);
+    const s = stops[0];
+    const card = document.getElementById('carousel-card');
+    card.style.borderLeftColor = s.color;
+    card.innerHTML = `<p class="carousel-card-num" style="color:${s.color}">${s.num}</p><h4>${s.title}</h4><p>${s.text}</p>`;
+    document.querySelector('.carousel-prev').disabled = true;
+  }, 300);
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e) {
+      const t = document.querySelector(this.getAttribute('href'));
+      if (t) { e.preventDefault(); window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - 56, behavior: 'smooth' }); }
+    });
+  });
+</script>
+</body>
+</html>
